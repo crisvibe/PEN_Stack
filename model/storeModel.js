@@ -1,6 +1,13 @@
 const pool = require('../config/db');
 
 const storeModel = {
+  add: async (name, price, stock) => {
+    const query = 'INSERT INTO product (name, price, stock) VALUES ($1, $2, $3) RETURNING *';
+    const values = [name, price, stock];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  },
+
   findAll: async () => {
     try {
       const query = 'SELECT * FROM product';

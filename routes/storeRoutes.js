@@ -6,8 +6,8 @@ const storeController = require('../controllers/storeController');
 // ---------------------------------------------------
 // | Routes:
 
-// Register new item
-
+// Add new products
+storeRouter.put('/add', storeController.addProduct)
 // Display all items
 storeRouter.get('/', storeController.getAllProducts);
 // Get Specific Item

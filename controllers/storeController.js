@@ -2,6 +2,17 @@
 const storeModel = require('../model/storeModel');
 
 const storeController = {
+  addProduct: async (req, res) => {
+    try {
+      const { name, price, stock } = req.body;
+      const addProduct = await storeModel.add(name, price, stock);
+      res.send(addProduct);
+    } catch (err) {
+      console.error('Error Registering Product', err);
+      res.status(500).send('Error Registering Product');
+    }
+  },
+
   getAllProducts: async (req, res) => {
     try {
       const products = await storeModel.findAll();
