@@ -1,18 +1,18 @@
 const express = require('express');
-const storeRouter = express.Router();
+const router = express.Router();
 const storeController = require('../controllers/storeController');
 // ------------------------------------------------------
 
 // Add new products
-storeRouter.get('/add', storeController.addProductForm)
-storeRouter.post('/add', storeController.addProduct)
+router.get('/add', storeController.addProductForm)
+router.post('/add', storeController.addProduct)
 // Display all items
-storeRouter.get('/', storeController.getAllProducts);
+router.get('/', storeController.getAllProducts);
 // Get Specific Item
-storeRouter.get('/:id', storeController.displayProduct);
+router.get('/:id', storeController.displayProduct);
 // Update Specific Product
-storeRouter.put('/update/:id', storeController.updateProduct);
+router.put('/update/:id', storeController.updateProduct);
 // Delete Product
-storeRouter.delete('/:id', storeController.deleteProduct);
+router.delete('/:id', storeController.deleteProduct);
 
-module.exports = storeRouter;
+module.exports = router;

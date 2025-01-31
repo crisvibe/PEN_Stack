@@ -1,8 +1,11 @@
 // -----------------------------------------------------
 const express = require('express');
 const app = express();
-const storeRouter = require('./routes/storeRoutes');
 const PORT = 3030;
+
+// Routers:
+const storeRouter = require('./routes/storeRoutes');
+const taskRouter = require('./routes/taskRouter');
 
 // ---------
 // | Morgan Library
@@ -27,8 +30,8 @@ app.get('/', (req, res) => {
   res.render('index', { message });
 });
 
-// The store routes:
 app.use('/store', storeRouter);
+app.use('/tasks', taskRouter);
 
 // The not found page
 app.get('*', (req, res) => {
