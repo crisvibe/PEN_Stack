@@ -1,13 +1,11 @@
 const express = require('express');
 const storeRouter = express.Router();
 const storeController = require('../controllers/storeController');
-
-
-// ---------------------------------------------------
-// | Routes:
+// ------------------------------------------------------
 
 // Add new products
-storeRouter.put('/add', storeController.addProduct)
+storeRouter.get('/add', storeController.addProductForm)
+storeRouter.post('/add', storeController.addProduct)
 // Display all items
 storeRouter.get('/', storeController.getAllProducts);
 // Get Specific Item

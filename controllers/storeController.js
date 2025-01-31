@@ -2,11 +2,21 @@
 const storeModel = require('../model/storeModel');
 
 const storeController = {
+  addProductForm: async (req, res) => {
+    try {
+      res.render('addProduct');
+    } catch (err) {
+      console.error('Error Registering Product', err);
+      res.status(500).send('Error Registering Product');
+    }
+  },
+
   addProduct: async (req, res) => {
     try {
       const { name, price, stock } = req.body;
-      const addProduct = await storeModel.add(name, price, stock);
-      res.send(addProduct);
+      const addProduct = await storeModel.add(name, price, stock);  
+      console.log(addProduct);
+      res.status(201).render('addProductConfirmation')
     } catch (err) {
       console.error('Error Registering Product', err);
       res.status(500).send('Error Registering Product');
@@ -25,8 +35,14 @@ const storeController = {
 
   displayProduct: async (req, res) => {
     try {
-      const storeItem = await storeModel.findById(req.params.id);
+      const id = req.params.id;
+      const storeItem = await storeModel.findById(id);
+      if (!storeItem) {
+        console.warn(`Product with ID ${id} not found`);
+        return res.status(404).render('error', { message: 'Product not found' });
+      };
       res.render('product', { data: storeItem });
+
     } catch (err) {
       console.error('Error Fetching Data', err);
       res.status(500).send('Error Fetching Data');
@@ -38,6 +54,10 @@ const storeController = {
       const id = req.params.id;
       const { name, price, stock } = req.body;
       const updateQuery = await storeModel.update(name, price, stock, id);
+      if (!updateQuery) {
+        console.warn('Could not update product');
+        return res.status(400).render('error', { message: 'Could not update product' });
+      };
       console.log(updateQuery);
       res.status(200).send(updateQuery);
     } catch (err) {

@@ -7,15 +7,12 @@
 </head>
 <body>
   <h1>The Store</h1>
-  <% if (data) { %>
     <% data.forEach((obj, index) => { %>
       <li><%= data[index].name %></li>
       <li><%= data[index].price %></li>
       <li><%= data[index].stock %></li>
-      <br>
+      <a href="store/<%= data[index].id %>"><button>Info</button></a>
+      <br><br>
     <% }); %>
-  <% } else { %>
-    <p>Sorry, no data found</p>
-  <% } %>
 </body>
 </html>

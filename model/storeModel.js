@@ -2,10 +2,14 @@ const pool = require('../config/db');
 
 const storeModel = {
   add: async (name, price, stock) => {
-    const query = 'INSERT INTO product (name, price, stock) VALUES ($1, $2, $3) RETURNING *';
-    const values = [name, price, stock];
-    const result = await pool.query(query, values);
-    return result.rows[0];
+    try {
+      const query = 'INSERT INTO product (name, price, stock) VALUES ($1, $2, $3) RETURNING *';
+      const values = [name, price, stock];
+      const result = await pool.query(query, values);
+      return result.rows.length ? result.rows[0] : null;
+    } catch (err) {
+      throw err;
+    }
   },
 
   findAll: async () => {
@@ -24,6 +28,7 @@ const storeModel = {
       const query = 'SELECT * FROM product WHERE id = $1';
       const values = [id];
       const results = await pool.query(query, values);
+      console.log(results.rows[0]);
       return results.rows[0]; // Return Object instead of array (results.rows)
     } catch (err) {
       // console.error('findById Error:', err);
@@ -36,7 +41,8 @@ const storeModel = {
       const query = 'UPDATE product SET name = $1, price = $2, stock = $3 WHERE id = $4 RETURNING *';
       const values = [name, price, stock, id];
       const result = await pool.query(query, values);
-      return result.rows[0];
+
+      return result.rows.length ? result.rows[0] : null;
     } catch (err) {
       throw err;
     }
